@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkyMorph — Quotation</title>
+<meta name="robots" content="noindex,nofollow">
+<script>document.documentElement.className+=' locked';</script>
+<style>html.locked body>*:not(#teamGate){display:none !important}</style>
+<style>
+:root{
+  --navy:#1f3a5f;
+  --thead:#2c3e50;
+  --green:#1e6b52;
+  --grey:#6b7883;
+  --rule:#dde3e8;
+  --band:#eef2f7;
+  --zebra:#fafbfc;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:#dfe4e2;
+  font-family:Arial,Helvetica,"Liberation Sans",sans-serif;
+  color:#243746;
+  font-size:11px;
+}
+input{font:inherit;color:inherit;background:transparent;border:0;padding:0;margin:0}
+input:focus{outline:none}
+
+/* ---------------- screen-only toolbar ---------------- */
+.bar{
+  position:sticky;top:0;z-index:30;background:#16293c;color:#e7eef4;
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:9px 14px;
+  box-shadow:0 2px 12px rgba(12,26,40,.3);font-size:13px;
+}
+.bar .tag{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#87a9bd;margin-right:4px}
+.btn{
+  border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);color:#e7eef4;
+  padding:6px 11px;border-radius:5px;cursor:pointer;font-size:13px;white-space:nowrap;
+}
+.btn:hover{background:rgba(255,255,255,.17)}
+.btn:focus-visible{outline:2px solid #6fd3ab;outline-offset:2px}
+.btn.go{background:#2f8f6d;border-color:transparent;font-weight:bold}
+.btn.go:hover{background:#37a37d}
+.bar .live{margin-left:auto;font-size:13px;color:#b9ccd9;white-space:nowrap}
+.bar .live b{color:#fff;font-size:15px}
+.note{width:100%;font-size:11.5px;color:#8fa8ba;margin-top:-2px}
+
+/* ---------------- the page ---------------- */
+.sheet{
+  width:210mm;max-width:100%;margin:20px auto 50px;background:#fff;
+  padding:14mm 13mm;box-shadow:0 1px 3px rgba(20,40,60,.18),0 16px 40px rgba(20,40,60,.13);
+}
+/* fields the user may change */
+.edit{background:#fbfdff;border-bottom:1px solid #cfe0ec}
+.edit:hover{background:#f2f8fd}
+.edit:focus{background:#fffbe8;border-bottom-color:#dcbf58}
+/* any label, heading or caption: click and type */
+[data-e],[data-lk],[data-bk],[data-bv]{border-radius:2px;cursor:text}
+[data-e]:hover,[data-lk]:hover,[data-bk]:hover,[data-bv]:hover{background:#f2f8fd;box-shadow:0 0 0 1px #cfe0ec}
+[data-e]:focus,[data-lk]:focus,[data-bk]:focus,[data-bv]:focus{background:#fffbe8;box-shadow:0 0 0 1px #dcbf58;outline:none}
+thead th[data-e]:hover,thead th[data-e]:focus,.grand td[data-lk]:hover,.grand td[data-lk]:focus{background:#3d5468;box-shadow:0 0 0 1px #6a8399;color:#fff}
+
+/* header */
+.top{display:table;width:100%}
+.top .l,.top .r{display:table-cell;vertical-align:top}
+.top .r{text-align:right;white-space:nowrap;padding-left:14px}
+.logo{display:table;margin-bottom:3px}
+.logo .badge,.logo .word{display:table-cell;vertical-align:middle}
+.logo .badge{width:58px}
+.logo .word{padding-left:9px}
+.wm{font-size:27px;font-weight:bold;letter-spacing:-.4px;line-height:1;color:#25404f}
+.wm em{font-style:normal;color:var(--green)}
+.wmsub{font-size:7.4px;letter-spacing:.235em;color:#7b8892;margin-top:3px}
+.addr{font-size:9.4px;color:#5f6d78;line-height:1.42}
+.addr .b{font-weight:bold;color:#243746}
+.addr .g{color:#1e6b52}
+.qtitle{font-size:29px;font-weight:bold;letter-spacing:.045em;color:var(--navy);line-height:1}
+.mline{font-size:9.6px;color:#5f6d78;margin-top:5px}
+.mline b{color:var(--navy)}
+.mline input{text-align:right}
+#f_no{width:118px}
+#f_date{width:82px}
+#f_val{width:22px;text-align:right}
+.hr{border-top:1.6px solid var(--green);margin:9px 0 0}
+
+/* quotation for */
+.forbox{background:var(--band);padding:10px 12px;margin-top:13px}
+.forlabel{font-size:7.6px;letter-spacing:.2em;color:#4a7591;font-weight:bold}
+.forname{font-size:15px;font-weight:bold;color:#243746;margin-top:2px;width:60%;max-width:340px}
+.forline{font-size:9.4px;color:#8a949c;width:62%;max-width:330px;margin-top:2px}
+.intro{font-size:9.6px;color:#5f6d78;margin:12px 0 7px}
+
+/* items table */
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+col.c0{width:22px}
+col.c2{width:44px}
+col.c3{width:74px}
+col.c4{width:52px}
+col.c5{width:88px}
+col.c6{width:70px}
+thead th{
+  background:var(--thead);color:#fff;font-size:9.4px;font-weight:bold;
+  padding:6px 5px;text-align:left;
+}
+th.r,td.r{text-align:right}
+th.c,td.c{text-align:center}
+tbody td{border-bottom:1px solid var(--rule);padding:0 5px;height:22px;font-size:9.6px;color:#243746}
+tbody tr:nth-child(even) td{background:var(--zebra)}
+td.n{color:#98a3ac;font-size:8.8px;text-align:center;padding:0;cursor:grab}
+tbody tr.over td{border-top:1.6px solid #2f8f6d}
+td input{width:100%}
+td.r input{text-align:right}
+td.c input{text-align:center}
+td.act{padding:0 0 0 6px;white-space:nowrap;text-align:right;border-bottom:0 !important;background:#fff !important}
+.mini{
+  border:1px solid var(--rule);background:#fff;border-radius:3px;width:17px;height:17px;
+  padding:0;cursor:pointer;color:#8a949c;font-size:9px;line-height:15px;
+}
+.mini:hover{background:var(--band);color:#243746}
+.mini.x:hover{background:#fdeceb;color:#a4442f;border-color:#f0c2ba}
+.addbtn{
+  margin-top:8px;border:1px solid var(--rule);background:var(--band);color:#243746;
+  padding:5px 10px;border-radius:4px;cursor:pointer;font-size:12px;
+}
+
+/* totals */
+.tfoot{border-collapse:collapse;width:100%;table-layout:fixed}
+.tfoot td{font-size:9.6px;font-weight:bold;color:#243746;padding:6px 5px;border-bottom:1.6px solid var(--thead);border-top:1px solid var(--rule)}
+.sums{width:262px;margin-left:auto;margin-top:0}
+.sums td{font-size:9.6px;padding:4px 6px;border-bottom:1px solid var(--rule)}
+.sums td:last-child{text-align:right;font-weight:bold;white-space:nowrap}
+.grand td{background:var(--thead);color:#fff;font-size:11.6px;padding:8px 6px;border:0}
+.grand td:first-child{font-weight:bold;letter-spacing:.06em}
+.words{font-size:9.6px;margin-top:9px}
+.words b{font-weight:bold}
+
+/* lower blocks */
+h4{
+  font-size:8.4px;letter-spacing:.17em;color:var(--navy);margin:22px 0 7px;
+  padding-bottom:4px;border-bottom:1px solid var(--rule);
+}
+ol.terms{margin:0;padding-left:16px;font-size:9.2px;color:#5f6d78;line-height:1.72}
+ol.terms[contenteditable]{background:#fbfdff;border-radius:3px;padding:3px 4px 3px 20px}
+ol.terms[contenteditable]:hover{background:#f2f8fd}
+ol.terms[contenteditable]:focus{outline:none;background:#fffbe8}
+ol.terms li{padding-left:2px}
+.bank{width:100%;border-collapse:collapse;table-layout:auto}
+.bank td{font-size:9.4px;padding:4px 0;border-bottom:1px solid #f0f3f6}
+.bank td.k{color:#7b8892;width:150px}
+.bank td.v{font-weight:bold;color:#243746}
+.bank td.x{width:24px;border-bottom:0;text-align:right}
+.sign{margin-top:26px;text-align:right;font-size:9.6px;color:#243746}
+.sign .f{font-weight:bold}
+.sign .ln{width:170px;margin:38px 0 4px auto;border-top:1px solid #243746}
+.foot{margin-top:16px;text-align:center;font-size:8.2px;color:#8a949c}
+.hide{display:none !important}
+
+/* ---------- quotation without GST ---------- */
+.bar .mode{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:5px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);cursor:pointer;white-space:nowrap}
+.bar .mode input{width:15px;height:15px;cursor:pointer;accent-color:#2f8f6d}
+.bar .mode.on{background:#8a6d1f;border-color:transparent;color:#fff;font-weight:bold}
+.nogst col.c4{width:0}
+.nogst .gc{padding:0 !important;font-size:0 !important;overflow:hidden;visibility:hidden}
+.ng-only{display:none}
+.nogst .ng-only{display:inline}
+.nogst .g-only{display:none}
+.gstx{display:none;margin-top:12px;border:1px solid #e3d3a1;border-left:4px solid #8a6d1f;background:#fdfaf1;
+  padding:8px 11px;font-size:9.8px;color:#5a4712;line-height:1.55}
+.gstx b{color:#5a4712}
+.nogst .gstx{display:block}
+@media print{.gstx{break-inside:avoid}}
+
+@media print{
+  @page{size:A4;margin:11mm}
+  body{background:#fff}
+  .noprint{display:none !important}
+  .sheet{width:auto;max-width:none;margin:0;padding:0;box-shadow:none}
+  .edit,ol.terms[contenteditable]{background:transparent !important;border-bottom-color:transparent !important}
+  ol.terms[contenteditable]{padding:0 0 0 16px}
+  [data-e],[data-lk],[data-bk],[data-bv]{background:transparent !important;box-shadow:none !important}
+  thead{display:table-header-group}
+  tr{break-inside:avoid}
+  .sums,.tfoot,ol.terms li,.bank,.sign{break-inside:avoid}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (max-width:840px){
+  .sheet{padding:16px 12px;margin:10px auto 30px}
+  .scroll{overflow-x:auto}
+  table,.tfoot{min-width:600px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+/* parent company */
+.aviyat{margin-bottom:7px;line-height:0}
+.aviyat svg{height:21px;width:66px;display:inline-block}
+.unit{margin-top:3px;text-align:center;font-size:7.2px;letter-spacing:.05em;color:#8a949c}
+</style>
+</head>
+<body>
+
+<div class="bar noprint">
+  <span class="tag">Quotation</span>
+  <button class="btn go" onclick="addRow()">+ Add item</button>
+  <button class="btn go" onclick="doPrint()">Print / Save PDF</button>
+  <button class="btn" onclick="exportJSON()">Save file</button>
+  <button class="btn" onclick="document.getElementById('imp').click()">Open file</button>
+  <button class="btn" onclick="newQuotation()">New quotation</button>
+  <button class="btn" onclick="document.getElementById('lg').click()">Replace logo</button>
+  <button class="btn" onclick="loadSample()">Load 29-item sample</button>
+  <label class="mode" id="noGstBox"><input type="checkbox" id="noGst" onchange="setNoGst(this.checked)"> Generate a quotation without GST</label>
+  <button class="btn" onclick="addBank()">+ Bank row</button>
+  <button class="btn" onclick="resetTerms()">Reset terms</button>
+  <button class="btn" onclick="resetText()">Reset wording</button>
+  <input type="file" id="imp" accept=".json" class="hide" onchange="importJSON(this)">
+  <input type="file" id="lg" accept="image/*" class="hide" onchange="setLogo(this)">
+  <span class="live"><span id="liveLabel">Grand total</span> &nbsp;<b id="liveTotal">Rs. 0.00</b> <span id="flash" style="color:#87c9ac"></span></span>
+  <div class="note">Every word on the sheet is editable — click any name, address, label, heading, column title, total caption, bank line or footer and type over it. In the terms, Enter starts a new numbered clause. "Reset wording" restores the original labels without touching your items or customer.</div>
+</div>
+
+<div class="sheet">
+
+  <!-- ===== header ===== -->
+  <div class="top">
+    <div class="l">
+      <div class="logo">
+        <div class="badge" id="logoBox">
+          <svg viewBox="0 0 100 100" width="58" height="58" aria-label="SkyMorph logo">
+            <rect x="2" y="2" width="96" height="96" rx="20" fill="#1e6b52"/>
+            <g fill="none" stroke="#ffffff" stroke-width="4.6">
+              <circle cx="31" cy="31" r="13"/><circle cx="69" cy="31" r="13"/>
+              <circle cx="31" cy="69" r="13"/><circle cx="69" cy="69" r="13"/>
+              <path d="M41 41 L59 59 M59 41 L41 59" stroke-width="5.4"/>
+            </g>
+            <g fill="#ffffff">
+              <circle cx="31" cy="31" r="3.4"/><circle cx="69" cy="31" r="3.4"/>
+              <circle cx="31" cy="69" r="3.4"/><circle cx="69" cy="69" r="3.4"/>
+              <rect x="43" y="43" width="14" height="14" rx="3.4"/>
+            </g>
+          </svg>
+        </div>
+        <div class="word">
+          <div class="wm" data-e="t_wm">Sky<em>Morph</em></div>
+          <div class="wmsub" data-e="t_wmsub">AGRICULTURAL DRONE SYSTEMS</div>
+        </div>
+      </div>
+      <div class="addr" data-e="t_a1">Ground Floor &amp; First Floor, S-132, Ram Sukh Camp,</div>
+      <div class="addr" data-e="t_a2">Tajpur Pahari, New Delhi, South East Delhi - 110044</div>
+      <div class="addr"><span class="b" data-e="t_gstl">GSTIN:</span> <span data-e="t_gst">07GVFPM6821R1ZR</span></div>
+      <div class="addr" data-e="t_contact">Email: skymorphtech@gmail.com &nbsp;|&nbsp; +91-8287854952</div>
+      <div class="addr g" data-e="t_web">Web: https://skymorphtech.netlify.app</div>
+    </div>
+    <div class="r">
+      <div class="aviyat"><svg viewBox="0 0 126 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aviyat"><rect width="40" height="40" rx="9" fill="#dc2626"/><rect x="11.5" y="11.5" width="17" height="17" rx="4.5" fill="none" stroke="#fff" stroke-width="3"/><text x="49" y="28" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="bold" letter-spacing=".4" fill="#0f172a">AVI<tspan fill="#dc2626">YAT</tspan></text></svg></div>
+      <div class="qtitle" data-e="t_title">QUOTATION</div>
+      <div class="mline"><b data-e="t_no">Quotation No:</b> <input class="edit" id="f_no" value="SM/QTN/2026-27/373"></div>
+      <div class="mline"><b data-e="t_date">Date:</b> <input class="edit" id="f_date" value="01 July 2026"></div>
+      <div class="mline"><b data-e="t_val">Validity:</b> <input class="edit" id="f_val" value="15"> <span data-e="t_val2">Days</span></div>
+    </div>
+  </div>
+  <div class="hr"></div>
+
+  <!-- ===== quotation for ===== -->
+  <div class="forbox">
+    <div class="forlabel" data-e="t_for">QUOTATION FOR</div>
+    <input class="forname edit" id="f_cust" value="AgriWings" placeholder="Customer name">
+    <br><input class="forline edit" id="f_a1" placeholder="[Address line 1]">
+    <br><input class="forline edit" id="f_a2" placeholder="[City, State - PIN]">
+    <br><input class="forline edit" id="f_gst" placeholder="GSTIN:">
+  </div>
+
+  <div class="intro" data-e="t_intro">We thank you for your enquiry and are pleased to submit our quotation for the following items:</div>
+
+  <!-- ===== items ===== -->
+  <div class="scroll">
+    <table>
+      <colgroup>
+        <col class="c0"><col><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6 noprint">
+      </colgroup>
+      <thead>
+        <tr>
+          <th data-e="t_h0">#</th><th data-e="t_h1">Description</th><th class="r" data-e="t_h2">Qty</th><th class="r" data-e="t_h3">Unit Price</th>
+          <th class="gc" data-e="t_h4">GST %</th><th class="r" data-e="t_h5">Amount</th><th class="noprint"></th>
+        </tr>
+      </thead>
+      <tbody id="tb"></tbody>
+    </table>
+
+    <table class="tfoot">
+      <colgroup>
+        <col class="c0"><col><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6 noprint">
+      </colgroup>
+      <tr>
+        <td colspan="2"><span data-e="t_items">Total Items:</span> <span id="tCount">0</span></td>
+        <td class="r" id="tQty">0</td>
+        <td colspan="2"><span class="g-only" data-e="t_taxline">Taxable Value</span><span class="ng-only" data-e="t_totline">Total (excl. GST)</span></td>
+        <td class="r" id="tTax">0.00</td>
+        <td class="noprint" style="border:0"></td>
+      </tr>
+    </table>
+  </div>
+  <button class="addbtn noprint" onclick="addRow()">+ Add item</button>
+
+  <table class="sums"><tbody id="sums"></tbody></table>
+  <div class="words"><b data-e="t_words">Amount in words:</b> <span id="words"></span><span class="ng-only" data-e="t_wordsx"> (exclusive of GST)</span></div>
+  <div class="gstx" data-e="t_gstx"><b>GST EXCLUSIVE:</b> All prices in this quotation are exclusive of GST. GST will be charged extra, as applicable on the respective products or services at the rates in force on the date of the tax invoice.</div>
+
+  <!-- ===== terms ===== -->
+  <h4 data-e="t_termshead">TERMS &amp; CONDITIONS</h4>
+  <ol class="terms" id="terms" contenteditable="true" spellcheck="true">
+    <li>Payment Terms: 100% advance payment along with the confirmed Purchase Order.</li>
+    <li>This quotation is valid for 15 days from the date of issue; prices are subject to revision thereafter.</li>
+    <li>Prices are exclusive of GST unless otherwise stated; GST is charged extra at the rates applicable to the respective products or services.</li>
+    <li>Delivery: Within 2-3 weeks from receipt of advance payment and confirmed order, subject to stock availability.</li>
+    <li>Delivery / freight charges, where applicable, are as indicated in the line items.</li>
+    <li>Warranty on components, where applicable, is limited to the respective manufacturer's warranty terms.</li>
+    <li>Goods once sold will not be taken back or exchanged unless received defective and reported within 48 hours of delivery.</li>
+    <li>Any variation in specifications or quantities will require a revised quotation.</li>
+    <li>All disputes are subject to the jurisdiction of courts at Delhi.</li>
+  </ol>
+
+  <!-- ===== bank ===== -->
+  <h4 data-e="t_bankhead">BANK DETAILS</h4>
+  <table class="bank"><tbody id="bankBody"></tbody></table>
+
+  <div class="sign">
+    <div class="f" data-e="t_signfor">For SkyMorph</div>
+    <div class="ln"></div>
+    <div data-e="t_sig">Authorised Signatory</div>
+  </div>
+
+  <div class="foot" data-e="t_foot">This is a computer-generated quotation.</div>
+  <div class="unit" data-e="t_unit">SkyMorph - A unit of Aviyat World</div>
+</div>
+
+<datalist id="cat"></datalist>
+
+<script>
+/* ---------- item catalogue: type a name, price and GST fill in ---------- */
+var CATALOG=[
+["Battery Straps",65,5],["CUAV CAN PDB",20800,18],["L Outlet from Tank (8mm)",125,5],
+["CUAV X7 Plus FC",31502,5],["Neo 3 CAN GPS",23500,5],["GPS Stand",325,5],
+["Horizontal Landing Clamp",250,5],["Horizontal Landing Gear",800,5],["I Joint (8mm x 6mm)",115,5],
+["L Joint (12mm x 8mm)",115,5],["Nozzle Boom",1850,5],["Nozzle Boom Rubber",81,5],
+["Nozzle Cover",101,5],["Nozzle Filter",95,5],["Nozzle Tip",650,5],
+["Propeller CCW A6 (Hobby Wings)",1350,5],["Propeller CW A6 (Hobby Wings)",1350,5],
+["Propeller Guard",199,5],["Screw M3*10",9,18],["Screw M3*12",9,18],["Screw M3*8",9,18],
+["T Joint (10mm x 12mm x 10mm)",115,18],["Tank Bottom Cap",450,5],["UAV Terrain Sensor",21550,5],
+["Vertical Landing Gear",530,5],["Vertical Landing Gear Clamp",919,5],
+["5 LPM Brushless Water Pump",6999,5],["Y Joint (8mm x 10mm x 8mm)",115,18],["Delivery Charges",4999,18]
+];
+var SQTY=[100,2,20,1,5,10,21,6,73,6,25,27,14,34,24,20,20,25,200,200,200,45,3,2,20,10,5,42,1];
+
+/* ---------- bank lines (editable, add/remove) ---------- */
+var BANK=[
+["Bank Name","HDFC Bank"],
+["Account Holder","SKYMORPH"],
+["Account No","50200121872075"],
+["IFSC Code","HDFC0002040"]
+];
+/* drafts saved before the bank change still carry the old Axis account */
+function oldBank(b){return JSON.stringify(b||[]).indexOf("924010059756666")>=0||JSON.stringify(b||[]).indexOf("UTIB0005632")>=0;}
+function renderBank(){
+  var h="";
+  for(var i=0;i<BANK.length;i++){
+    h+='<tr>'
+      +'<td class="k" data-bk="'+i+'" contenteditable="true" spellcheck="false">'+esc(BANK[i][0])+'</td>'
+      +'<td class="v" data-bv="'+i+'" contenteditable="true" spellcheck="false">'+esc(BANK[i][1])+'</td>'
+      +'<td class="x noprint"><button class="mini x" title="Remove this line" onclick="delBank('+i+')">&#10005;</button></td>'
+      +'</tr>';
+  }
+  document.getElementById('bankBody').innerHTML=h;
+}
+function addBank(){BANK.push(["Label","Value"]);renderBank();save();flash('bank line added');}
+function delBank(i){BANK.splice(i,1);if(!BANK.length)BANK.push(["Label","Value"]);renderBank();save();}
+
+/* ---------- editable wording: every label, heading and caption ---------- */
+var E={},LB={},E_DEFAULT={};
+function lb(k,def){return (LB[k]!=null)?LB[k]:def;}
+function L(k,def){return '<td data-lk="'+k+'" contenteditable="true" spellcheck="false">'+lb(k,def)+'</td>';}
+function armText(){
+  var n=document.querySelectorAll('[data-e]');
+  for(var i=0;i<n.length;i++){
+    var k=n[i].getAttribute('data-e');
+    if(E_DEFAULT[k]==null)E_DEFAULT[k]=n[i].innerHTML;
+    n[i].setAttribute('contenteditable','true');
+    n[i].setAttribute('spellcheck','false');
+  }
+}
+function applyText(){
+  Object.keys(E).forEach(function(k){
+    var el=document.querySelector('[data-e="'+k+'"]');
+    if(el&&E[k]!=null)el.innerHTML=cleanHTML(E[k]);
+  });
+}
+function resetText(){
+  if(!confirm('Restore every label, heading and caption to its original wording? Items, customer, terms and bank lines are not touched.'))return;
+  E={};LB={};
+  Object.keys(E_DEFAULT).forEach(function(k){
+    var el=document.querySelector('[data-e="'+k+'"]');if(el)el.innerHTML=E_DEFAULT[k];
+  });
+  calc();flash('wording restored');
+}
+document.addEventListener('input',function(ev){
+  var t=ev.target;if(!t||!t.getAttribute)return;
+  var ke=t.getAttribute('data-e'),kl=t.getAttribute('data-lk'),bk=t.getAttribute('data-bk'),bv=t.getAttribute('data-bv');
+  if(ke)E[ke]=t.innerHTML;
+  else if(kl)LB[kl]=t.innerHTML;
+  else if(bk!=null&&BANK[+bk])BANK[+bk][0]=t.textContent;
+  else if(bv!=null&&BANK[+bv])BANK[+bv][1]=t.textContent;
+  else return;
+  save();
+},true);
+function oneLine(t){return t&&t.getAttribute&&(t.getAttribute('data-e')||t.getAttribute('data-lk')||t.getAttribute('data-bk')!=null||t.getAttribute('data-bv')!=null);}
+document.addEventListener('keydown',function(ev){
+  if(ev.key==='Enter'&&oneLine(ev.target)){ev.preventDefault();ev.target.blur();}
+},true);
+document.addEventListener('paste',function(ev){
+  if(!oneLine(ev.target))return;
+  ev.preventDefault();
+  document.execCommand('insertText',false,(ev.clipboardData||window.clipboardData).getData('text').replace(/\s*\n+\s*/g,' '));
+},true);
+
+var rows=[];
+function blank(){return {d:"",q:1,r:0,g:5};}
+function r2(n){return Math.round((n+Number.EPSILON)*100)/100;}
+function fmt(n){return (isFinite(n)?n:0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function qfmt(n){n=isFinite(n)?n:0;return String(Math.round(n*1000)/1000);}
+function esc(s){return String(s==null?"":s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function num(v){var x=parseFloat(String(v).replace(/[^0-9.\-]/g,''));return isFinite(x)?x:0;}
+
+/* ---------- amount in words, Indian system ---------- */
+var O=["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+var T=["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
+function u100(n){return n<20?O[n]:T[Math.floor(n/10)]+(n%10?" "+O[n%10]:"");}
+function u1000(n){var h=Math.floor(n/100),x=n%100;return (h?O[h]+" Hundred"+(x?" ":""):"")+(x?u100(x):"");}
+function iw(n){
+  if(n===0)return "Zero";
+  var p=[],cr=Math.floor(n/10000000);n%=10000000;
+  var la=Math.floor(n/100000);n%=100000;
+  var th=Math.floor(n/1000);n%=1000;
+  if(cr)p.push((cr>99?iw(cr):u1000(cr))+" Crore");
+  if(la)p.push(u1000(la)+" Lakh");
+  if(th)p.push(u1000(th)+" Thousand");
+  if(n)p.push(u1000(n));
+  return p.join(" ");
+}
+function words(v){
+  var neg=v<0;v=Math.abs(r2(v));
+  var rs=Math.floor(v),ps=Math.round((v-rs)*100);
+  var s="Rupees "+iw(rs);
+  if(ps)s+=" and "+u100(ps)+" Paise";
+  return (neg?"Minus ":"")+s+" Only";
+}
+
+/* ---------- with / without GST ---------- */
+var noGst=false;
+function setNoGst(on){
+  noGst=!!on;
+  document.getElementById('noGst').checked=noGst;
+  document.body.classList.toggle('nogst',noGst);
+  document.getElementById('noGstBox').classList.toggle('on',noGst);
+  calc();
+}
+
+/* ---------- render ---------- */
+function amt(r){return r2(num(r.q)*num(r.r));}
+function render(){
+  var h="";
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    h+='<tr data-i="'+i+'">'
+      +'<td class="n" draggable="true" data-i="'+i+'" title="Drag to reorder">'+(i+1)+'</td>'
+      +'<td><input list="cat" value="'+esc(r.d)+'" placeholder="Description" oninput="set('+i+',\'d\',this.value)" onchange="fill('+i+',this.value)"></td>'
+      +'<td class="r"><input value="'+qfmt(r.q)+'" onfocus="raw(this,'+i+',\'q\')" oninput="set('+i+',\'q\',this.value)" onblur="this.value=qfmt(rows['+i+'].q)"></td>'
+      +'<td class="r"><input value="'+fmt(r.r)+'" onfocus="raw(this,'+i+',\'r\')" oninput="set('+i+',\'r\',this.value)" onblur="this.value=fmt(rows['+i+'].r)"></td>'
+      +'<td class="gc"><input value="'+qfmt(r.g)+'%" onfocus="raw(this,'+i+',\'g\')" oninput="set('+i+',\'g\',this.value)" onblur="this.value=qfmt(rows['+i+'].g)+\'%\'"></td>'
+      +'<td class="r" id="a'+i+'">'+fmt(amt(r))+'</td>'
+      +'<td class="act noprint">'
+        +'<button class="mini" title="Move up" onclick="mv('+i+',-1)">&#9650;</button> '
+        +'<button class="mini" title="Move down" onclick="mv('+i+',1)">&#9660;</button> '
+        +'<button class="mini" title="Copy row" onclick="dup('+i+')">&#43;</button> '
+        +'<button class="mini x" title="Delete row" onclick="del('+i+')">&#10005;</button>'
+      +'</td></tr>';
+  }
+  document.getElementById('tb').innerHTML=h;
+  drag();
+  calc();
+}
+function raw(el,i,k){el.value=rows[i][k];el.select();}
+function set(i,k,v){rows[i][k]=num(v);if(k==='d')rows[i].d=v;var c=document.getElementById('a'+i);if(c)c.textContent=fmt(amt(rows[i]));calc();}
+function fill(i,v){
+  var t=String(v).trim().toLowerCase();
+  for(var j=0;j<CATALOG.length;j++){
+    if(CATALOG[j][0].toLowerCase()===t){
+      if(!num(rows[i].r)){rows[i].r=CATALOG[j][1];rows[i].g=CATALOG[j][2];render();}
+      return;
+    }
+  }
+}
+
+/* ---------- totals: GST rounded per slab, exactly like the printed quotation ---------- */
+function calc(){
+  var slab={},tax=0,qty=0;
+  for(var i=0;i<rows.length;i++){
+    var a=amt(rows[i]);tax+=a;qty+=num(rows[i].q);
+    var g=num(rows[i].g);slab[g]=(slab[g]||0)+a;
+  }
+  tax=r2(tax);
+  var keys=Object.keys(slab).map(Number).sort(function(a,b){return a-b;});
+  var gst=0,lines="";
+  var grand;
+  if(noGst){
+    /* without GST: no tax lines, the total is the plain value */
+    grand=tax;
+    lines+='<tr class="grand">'+L('s.grandx','TOTAL (EXCLUSIVE OF GST)')+'<td>Rs. '+fmt(grand)+'</td></tr>';
+    lines+='<tr>'+L('s.gstextra','GST')+L('s.gstextrav','Extra, as applicable')+'</tr>';
+  }else{
+    lines+='<tr>'+L('s.sub','Sub Total (Taxable)')+'<td>'+fmt(tax)+'</td></tr>';
+    for(var k=0;k<keys.length;k++){
+      var rate=keys[k],t=Math.round(slab[rate]*rate/100);
+      gst+=t;
+      if(rate>0)lines+='<tr>'+L('s.gst@'+qfmt(rate),'Add: GST @ '+qfmt(rate)+'%')+'<td>'+fmt(t)+'</td></tr>';
+    }
+    lines+='<tr>'+L('s.totgst','Total GST')+'<td>'+fmt(gst)+'</td></tr>';
+    grand=r2(tax+gst);
+    lines+='<tr class="grand">'+L('s.grand','GRAND TOTAL')+'<td>Rs. '+fmt(grand)+'</td></tr>';
+  }
+  document.getElementById('liveLabel').textContent=noGst?'Total (excl. GST)':'Grand total';
+  /* don't redraw while the user is typing in one of these captions */
+  var a=document.activeElement,sumsEl=document.getElementById('sums');
+  if(!(a&&sumsEl.contains(a)))sumsEl.innerHTML=lines;
+  document.getElementById('tCount').textContent=rows.length;
+  document.getElementById('tQty').textContent=qfmt(qty);
+  document.getElementById('tTax').textContent=fmt(tax);
+  document.getElementById('words').textContent=words(grand);
+  document.getElementById('liveTotal').textContent='Rs. '+fmt(grand);
+  save();
+}
+
+/* ---------- print, new quotation ---------- */
+var MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function today(){var d=new Date();return (d.getDate()<10?"0":"")+d.getDate()+" "+MON[d.getMonth()]+" "+d.getFullYear();}
+function doPrint(){window.print();}
+function newQuotation(){
+  if(!confirm('Start a new quotation? Items and customer details will be cleared. Wording, terms and bank details stay.'))return false;
+  var el=document.getElementById('f_no'),m=el.value.match(/^(.*?)(\d+)(\D*)$/);
+  if(m){
+    var n=String(+m[2]+1),w=m[2].length;
+    while(n.length<w)n="0"+n;
+    el.value=m[1]+n+m[3];
+  }
+  document.getElementById('f_date').value=today();
+  ['f_cust','f_a1','f_a2','f_gst'].forEach(function(id){document.getElementById(id).value="";});
+  rows=[blank(),blank(),blank()];
+  render();flash('new quotation');
+  return true;
+}
+
+/* ---------- row actions ---------- */
+function addRow(){rows.push(blank());render();var n=document.querySelectorAll('#tb tr input');if(n.length)n[(rows.length-1)*5].focus();}
+function del(i){rows.splice(i,1);if(!rows.length)rows.push(blank());render();}
+function dup(i){rows.splice(i+1,0,{d:rows[i].d,q:rows[i].q,r:rows[i].r,g:rows[i].g});render();}
+function mv(i,d){var j=i+d;if(j<0||j>=rows.length)return;var t=rows[i];rows[i]=rows[j];rows[j]=t;render();}
+function loadSample(){
+  rows=CATALOG.map(function(c,i){return {d:c[0],q:SQTY[i]||1,r:c[1],g:c[2]};});
+  render();
+}
+var from=null;
+function drag(){
+  var cells=document.querySelectorAll('#tb .n');
+  for(var i=0;i<cells.length;i++){
+    cells[i].addEventListener('dragstart',function(e){from=+this.dataset.i;});
+  }
+  var trs=document.querySelectorAll('#tb tr');
+  for(var j=0;j<trs.length;j++){
+    trs[j].addEventListener('dragover',function(e){e.preventDefault();this.classList.add('over');});
+    trs[j].addEventListener('dragleave',function(){this.classList.remove('over');});
+    trs[j].addEventListener('drop',function(e){
+      e.preventDefault();this.classList.remove('over');
+      var to=+this.dataset.i;
+      if(from===null||from===to)return;
+      var m=rows.splice(from,1)[0];rows.splice(to,0,m);from=null;render();
+    });
+  }
+}
+
+/* ---------- logo swap ---------- */
+function setLogo(inp){
+  var f=inp.files&&inp.files[0];if(!f)return;
+  var fr=new FileReader();
+  fr.onload=function(){paint(fr.result);save();};
+  fr.readAsDataURL(f);
+}
+function paint(src){
+  document.getElementById('logoBox').innerHTML='<img src="'+src+'" alt="SkyMorph" style="width:58px;height:58px;object-fit:contain;display:block">';
+}
+
+/* ---------- terms ---------- */
+var TERMS_EL=document.getElementById('terms');
+var TERMS_DEFAULT=TERMS_EL.innerHTML;
+function cleanHTML(h){
+  return String(h).replace(/<\s*(script|style|iframe|object|embed)[\s\S]*?<\s*\/\s*\1\s*>/gi,'')
+                  .replace(/\son[a-z]+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'')
+                  .replace(/javascript:/gi,'');
+}
+function resetTerms(){
+  if(!confirm('Restore the nine standard terms? Your edits to this block will be lost.'))return;
+  TERMS_EL.innerHTML=TERMS_DEFAULT;save();flash('terms restored');
+}
+TERMS_EL.addEventListener('input',save);
+TERMS_EL.addEventListener('paste',function(e){
+  e.preventDefault();
+  var t=(e.clipboardData||window.clipboardData).getData('text');
+  document.execCommand('insertText',false,t);
+});
+TERMS_EL.addEventListener('blur',function(){
+  if(!TERMS_EL.textContent.trim())TERMS_EL.innerHTML='<li></li>';
+});
+
+/* ---------- save / open ---------- */
+var FIELDS=['f_no','f_date','f_val','f_cust','f_a1','f_a2','f_gst'];
+function snap(){
+  var o={kind:'quotation',v:5,rows:rows,f:{},terms:TERMS_EL.innerHTML,text:E,labels:LB,bank:BANK,noGst:noGst};
+  FIELDS.forEach(function(id){o.f[id]=document.getElementById(id).value;});
+  var img=document.querySelector('#logoBox img');if(img)o.logo=img.src;
+  return o;
+}
+function restore(o){
+  if(!o)return;
+  rows=(o.rows&&o.rows.length)?o.rows:[blank()];
+  Object.keys(o.f||{}).forEach(function(id){
+    var e=document.getElementById(id);if(e&&o.f[id]!=null)e.value=o.f[id];
+  });
+  if(o.terms)TERMS_EL.innerHTML=cleanHTML(o.terms);
+  if(o.logo)paint(o.logo);
+  if(o.bank&&o.bank.length&&!oldBank(o.bank))BANK=o.bank;
+  E=o.text||{};LB=o.labels||{};
+  applyText();renderBank();render();
+  setNoGst(!!o.noGst);
+}
+function exportJSON(){
+  var name=(document.getElementById('f_no').value||'quotation').replace(/[^\w.-]+/g,'_');
+  var b=new Blob([JSON.stringify(snap(),null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download=name+'.json';a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+  flash('saved');
+}
+function importJSON(inp){
+  var f=inp.files&&inp.files[0];if(!f)return;
+  var fr=new FileReader();
+  fr.onload=function(){
+    try{restore(JSON.parse(fr.result));flash('opened');}
+    catch(e){alert('That file is not a saved quotation. Choose a .json created by Save file.');}
+    inp.value='';
+  };
+  fr.readAsText(f);
+}
+var st=null;
+function save(){
+  clearTimeout(st);
+  st=setTimeout(function(){
+    var data;
+    try{data=JSON.stringify(snap());}catch(e){return;}
+    try{
+      if(window.storage&&window.storage.set){window.storage.set('skymorph:quote',data);flash('draft saved');return;}
+    }catch(e){}
+    try{window.localStorage.setItem('skymorph:quote',data);flash('draft saved');}catch(e){}
+  },700);
+}
+function flash(m){
+  var e=document.getElementById('flash');e.textContent=' · '+m;
+  setTimeout(function(){if(e.textContent===' · '+m)e.textContent='';},2000);
+}
+FIELDS.forEach(function(id){document.getElementById(id).addEventListener('input',save);});
+document.addEventListener('keydown',function(e){
+  if(!(e.ctrlKey||e.metaKey))return;
+  if(e.key==='Enter'){e.preventDefault();addRow();}
+  if(String(e.key).toLowerCase()==='s'){e.preventDefault();exportJSON();}
+  if(String(e.key).toLowerCase()==='p'){e.preventDefault();doPrint();}
+});
+
+/* ---------- boot ---------- */
+document.getElementById('cat').innerHTML=CATALOG.map(function(c){return '<option value="'+esc(c[0])+'"></option>';}).join('');
+armText();
+(function(){
+  function go(o){if(o){restore(o);}else{window.__fresh=true;document.getElementById('f_date').value=today();document.getElementById('f_cust').value='';rows=[blank(),blank(),blank()];renderBank();render();}}
+  try{
+    if(window.storage&&window.storage.get){
+      window.storage.get('skymorph:quote').then(function(d){
+        try{go(d&&d.value?JSON.parse(d.value):null);}catch(e){go(null);}
+      }).catch(function(){go(null);});
+      return;
+    }
+  }catch(e){}
+  var raw=null;
+  try{raw=window.localStorage.getItem('skymorph:quote');}catch(e){}
+  try{go(raw?JSON.parse(raw):null);}catch(e){go(null);}
+})();
+</script>
+<script>window.TEAM_TYPE='quotation';window.TEAM_NEW='newQuotation';</script>
+<script src="team-config.js"></script>
+<script src="team.js"></script>
+</body>
+</html>

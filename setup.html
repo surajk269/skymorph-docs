@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>SkyMorph Documents — Team setup</title>
+<script>document.documentElement.className+=' locked';</script>
+<style>
+html.locked body>*:not(#teamGate){display:none !important}
+*{box-sizing:border-box}
+body{margin:0;background:#dfe4e2;font-family:Arial,Helvetica,sans-serif;color:#243746;font-size:14px}
+.wrap{max-width:560px;margin:0 auto;padding:36px 16px}
+.box{background:#fff;border-radius:8px;padding:22px 20px;box-shadow:0 10px 26px rgba(20,40,60,.1)}
+h1{font-size:19px;color:#1f3a5f;margin:0 0 6px}
+p{color:#5f6d78;line-height:1.55;margin:0 0 14px}
+label{display:block;font-size:12.5px;color:#4d5b66;margin-top:12px}
+input{width:100%;font:inherit;padding:9px;border:1px solid #cfd8df;border-radius:6px;margin-top:4px}
+input:focus{outline:2px solid #2f8f6d;border-color:transparent}
+button{margin-top:16px;padding:10px 14px;border:0;border-radius:6px;background:#2f8f6d;color:#fff;font:inherit;font-weight:bold;cursor:pointer}
+#msg{margin-top:12px;min-height:20px;line-height:1.5}
+#msg.bad{color:#a4442f}#msg.ok{color:#1e6b52}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="box">
+  <h1>Team setup (admin, one time)</h1>
+  <p>This locks the GitHub access key with the team passcode and gives you a small file, <b>team-config.js</b>. Put that file in the site folder in place of the existing one and publish. The key is never shown or sent anywhere except to GitHub to test it.</p>
+  <form id="f">
+    <label>GitHub account that owns the private data repository
+      <input id="owner" value="surajk269" autocomplete="off" required></label>
+    <label>Private data repository name
+      <input id="repo" value="skymorph-data" autocomplete="off" required></label>
+    <label>Access key (fine-grained token with Contents: Read and write on that repository only)
+      <input id="tok" type="password" autocomplete="off" required></label>
+    <label>Team passcode
+      <input id="pass" type="password" inputmode="numeric" autocomplete="off" required></label>
+    <button type="submit">Test key and download team-config.js</button>
+  </form>
+  <div id="msg"></div>
+</div></div>
+<script src="team-config.js"></script>
+<script src="team.js"></script>
+<script>
+(function(){
+  var msg=document.getElementById('msg');
+  function say(t,c){msg.textContent=t;msg.className=c||'';}
+  document.getElementById('f').addEventListener('submit',function(e){
+    e.preventDefault();
+    var owner=document.getElementById('owner').value.trim(),repo=document.getElementById('repo').value.trim();
+    var tok=document.getElementById('tok').value.trim(),pass=document.getElementById('pass').value.trim();
+    say('Testing the key with GitHub…');
+    fetch('https://api.github.com/repos/'+encodeURIComponent(owner)+'/'+encodeURIComponent(repo),{
+      cache:'no-store',headers:{'Authorization':'Bearer '+tok,'Accept':'application/vnd.github+json'}
+    }).then(function(r){
+      if(r.status===401)throw new Error('GitHub rejected the key. Check that it was copied in full and has not expired.');
+      if(r.status===404)throw new Error('The key cannot see '+owner+'/'+repo+'. Check the repository name and that the key was given access to it.');
+      if(!r.ok)throw new Error('GitHub answered '+r.status+'. Try again in a minute.');
+      return r.json();
+    }).then(function(j){
+      if(!j.private)throw new Error('That repository is public. Customer documents would be visible to everyone. Make it private first.');
+      if(j.permissions&&j.permissions.push===false)throw new Error('The key can read the repository but not write to it. Give it Contents: Read and write.');
+      return Team.seal(pass,tok);
+    }).then(function(enc){
+      var text='/* Team store for SkyMorph documents. The access key below is encrypted with the team passcode. */\n'
+        +'window.TEAM_CONFIG='+JSON.stringify({owner:owner,repo:repo,enc:enc})+';\n';
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([text],{type:'text/javascript'}));
+      a.download='team-config.js';a.click();
+      setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+      document.getElementById('tok').value='';
+      say('Done. team-config.js was downloaded. Put it in the site folder, replacing the old one, and publish.','ok');
+    }).catch(function(err){say(err.message||'Something went wrong.','bad');});
+  });
+})();
+</script>
+</body>
+</html>

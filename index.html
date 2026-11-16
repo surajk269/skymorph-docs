@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>SkyMorph Documents</title>
+<script>document.documentElement.className+=' locked';</script>
+<style>
+html.locked body>*:not(#teamGate){display:none !important}
+*{box-sizing:border-box}
+body{margin:0;background:#dfe4e2;font-family:Arial,Helvetica,"Liberation Sans",sans-serif;color:#243746}
+.wrap{max-width:860px;margin:0 auto;padding:44px 16px 30px}
+.head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.head .name{font-size:28px;font-weight:bold;letter-spacing:-.4px;color:#25404f;line-height:1}
+.head .name em{font-style:normal;color:#1e6b52}
+.head .sub{font-size:8px;letter-spacing:.235em;color:#7b8892;margin-top:4px}
+.head .av{margin-left:auto;line-height:0}
+.head .av svg{height:24px;width:76px}
+h1{font-size:15px;letter-spacing:.14em;color:#1f3a5f;margin:34px 0 14px;font-weight:bold}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{display:block;background:#fff;border-radius:8px;padding:20px 18px;text-decoration:none;color:inherit;
+  border-top:4px solid #1e6b52;box-shadow:0 1px 3px rgba(20,40,60,.18),0 10px 26px rgba(20,40,60,.1)}
+.card:hover{background:#f7fbf9}
+.card:focus-visible{outline:2px solid #2f8f6d;outline-offset:3px}
+.card.p{border-top-color:#8a6d1f}.card.i{border-top-color:#1f3a5f}
+.card b{display:block;font-size:19px;color:#1f3a5f}
+.card span{display:block;font-size:13px;color:#5f6d78;margin-top:6px;line-height:1.45}
+.how{background:#fff;border-radius:8px;padding:16px 18px;margin-top:22px;font-size:13px;line-height:1.6;color:#4d5b66}
+.how b{color:#243746}
+.how ul{margin:6px 0 0;padding-left:18px}
+.foot{margin-top:26px;text-align:center;font-size:11px;color:#8a949c}
+.foot a{color:#6b7883}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <svg viewBox="0 0 100 100" width="52" height="52" aria-label="SkyMorph logo">
+      <rect x="2" y="2" width="96" height="96" rx="20" fill="#1e6b52"/>
+      <g fill="none" stroke="#ffffff" stroke-width="4.6">
+        <circle cx="31" cy="31" r="13"/><circle cx="69" cy="31" r="13"/>
+        <circle cx="31" cy="69" r="13"/><circle cx="69" cy="69" r="13"/>
+        <path d="M41 41 L59 59 M59 41 L41 59" stroke-width="5.4"/>
+      </g>
+      <g fill="#ffffff">
+        <circle cx="31" cy="31" r="3.4"/><circle cx="69" cy="31" r="3.4"/>
+        <circle cx="31" cy="69" r="3.4"/><circle cx="69" cy="69" r="3.4"/>
+        <rect x="43" y="43" width="14" height="14" rx="3.4"/>
+      </g>
+    </svg>
+    <div>
+      <div class="name">Sky<em>Morph</em></div>
+      <div class="sub">AGRICULTURAL DRONE SYSTEMS</div>
+    </div>
+    <div class="av"><svg viewBox="0 0 126 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Aviyat"><rect width="40" height="40" rx="9" fill="#dc2626"/><rect x="11.5" y="11.5" width="17" height="17" rx="4.5" fill="none" stroke="#fff" stroke-width="3"/><text x="49" y="28" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="bold" letter-spacing=".4" fill="#0f172a">AVI<tspan fill="#dc2626">YAT</tspan></text></svg></div>
+  </div>
+
+  <h1>WHAT DO YOU WANT TO MAKE?</h1>
+  <div class="cards">
+    <a class="card" href="quotation.html"><b>Quotation</b><span>Price offer for a customer, with or without GST.</span></a>
+    <a class="card p" href="proforma.html"><b>Proforma Invoice</b><span>Advance request before supply. Not a tax invoice.</span></a>
+    <a class="card i" href="invoice.html"><b>Tax Invoice</b><span>GST invoice with HSN summary and payment QR.</span></a>
+  </div>
+
+  <div class="how">
+    <b>How the team shares this</b>
+    <ul>
+      <li><b>New</b> in any tool takes the next number for the whole team, so two people never get the same one.</li>
+      <li>You can type any number you like. The tool then asks whether the team count should continue from it.</li>
+      <li><b>Print / Save PDF</b> and <b>Save file</b> also keep a team copy. <b>Team documents</b> lists them so anyone can reopen and reprint.</li>
+    </ul>
+  </div>
+
+  <div class="foot">SkyMorph - A unit of Aviyat World &nbsp;·&nbsp; <a href="#" onclick="Team.lock();return false">Lock this computer</a></div>
+</div>
+<script src="team-config.js"></script>
+<script src="team.js"></script>
+</body>
+</html>
