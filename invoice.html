@@ -224,6 +224,8 @@ ol.terms[contenteditable]:focus{outline:none;background:#fffbe8}
   .edit,ol.terms[contenteditable]{background:transparent !important;border-bottom:0 !important}
   ol.terms[contenteditable]{padding:0 0 0 16px}
   [data-e],[data-lk]{background:transparent !important;box-shadow:none !important}
+  /* dark header row and grand-total caption keep their dark background on paper */
+  thead th[data-e],tr.grand td[data-lk]{background:var(--thead) !important;color:#fff !important}
   .top .r{white-space:normal}
   .scroll{overflow:visible !important}
   table.items,.tfoot,table.hsn{min-width:0 !important}
